@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EIL Preposition Navigator v3 - Indonesian High School Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Enable Tailwind class-based Dark Mode configuration architecture
+        tailwind.config = {
+            darkMode: 'class'
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght=400;600;700;800&display=swap');
+        body { 
+            font-family: 'Nunito', sans-serif; 
+        }
+        /* Chunky 3D Button Utility Effects */
+        .btn-3d-maroon {
+            background-color: #800000;
+            border-bottom: 4px solid #5a0000;
+            transition: all 0.1s ease;
+        }
+        .btn-3d-maroon:hover {
+            background-color: #990000;
+        }
+        .btn-3d-maroon:active {
+            border-bottom-width: 0px;
+            transform: translateY(4px);
+        }
+        .btn-3d-gray {
+            background-color: #ffffff;
+            border: 2px solid #e2e8f0;
+            border-bottom: 4px solid #cbd5e1;
+            transition: all 0.1s ease;
+        }
+        .btn-3d-gray:hover {
+            background-color: #f8fafc;
+            border-color: #cbd5e1;
+        }
+        .btn-3d-gray:active {
+            border-bottom-width: 2px;
+            transform: translateY(2px);
+        }
+    </style>
+</head>
+<body class="bg-[#f7f7f7] text-slate-800 antialiased min-h-screen flex flex-col md:flex-row border-t-4 border-t-[#800000] dark:bg-slate-900 dark:text-slate-100 transition-colors duration-200">
+
+    <aside class="w-full md:w-64 bg-white border-b-2 md:border-b-0 md:border-r-2 border-slate-200 px-3 py-3 md:px-4 md:py-6 flex flex-col justify-between shrink-0 md:sticky md:top-0 md:h-screen dark:bg-slate-800 dark:border-slate-700">
+        <div class="space-y-3 md:space-y-4">
+            <div class="flex items-center space-x-3 px-2 py-0.5">
+                <div class="text-2xl md:text-3xl">🗺️</div>
+                <div>
+                    <h1 class="text-base md:text-lg font-extrabold tracking-tight text-[#800000] dark:text-rose-400">EIL Navigator</h1>
+                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-wider dark:text-slate-500">CEFR A2 English Prep</p>
+                </div>
+            </div>
+
+            <div class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-2 md:p-3 space-y-2 mx-1 shadow-3xs dark:bg-slate-900/40 dark:border-slate-700">
+                <div class="flex items-center gap-3">
+                    <button onclick="triggerAvatarCycle()" id="user-avatar-display" class="text-xl md:text-2xl bg-white border border-slate-200 rounded-xl p-1 md:p-1.5 shadow-3xs hover:bg-slate-100 transition-all cursor-pointer dark:bg-slate-800 dark:border-slate-700">🦉</button>
+                    <div class="flex-grow min-w-0">
+                        <input type="text" id="user-name-input" onchange="handleNameChange(this.value)" value="Siswa" class="w-full bg-transparent font-black text-xs text-slate-800 border-b border-transparent hover:border-slate-300 focus:border-[#800000] dark:focus:border-rose-400 focus:outline-none py-0.5 truncate dark:text-slate-200" title="Click to change name">
+                        <p class="text-[9px] font-bold text-slate-400 uppercase tracking-wider dark:text-slate-500">Student Account</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-1 gap-2 mx-1">
+                <div class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-2 md:p-3 flex flex-col sm:flex-row items-center justify-between gap-1 shadow-3xs dark:bg-slate-900/40 dark:border-slate-700">
+                    <span class="text-[10px] md:text-xs font-black text-slate-500 uppercase tracking-wider dark:text-slate-400">🌓 Theme</span>
+                    <button onclick="handleThemeToggle()" id="theme-toggle-btn" class="w-full sm:w-auto px-2 py-1 bg-white border border-slate-300 rounded-xl text-[10px] md:text-xs font-bold text-slate-700 hover:bg-slate-100 shadow-3xs transition-all cursor-pointer dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-600">☀️ Light</button>
+                </div>
+
+                <div class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-2 md:p-3 flex flex-col sm:flex-row items-center justify-between gap-1 shadow-3xs dark:bg-slate-900/40 dark:border-slate-700">
+                    <span class="text-[10px] md:text-xs font-black text-slate-500 uppercase tracking-wider dark:text-slate-400">🎵 Audio</span>
+                    <button onclick="handleAudioToggle()" id="audio-toggle-btn" class="w-full sm:w-auto px-2 py-1 bg-slate-100 border border-slate-200 rounded-xl text-[10px] md:text-xs font-bold text-slate-400 shadow-none transition-all cursor-pointer dark:bg-slate-700 dark:border-slate-600">🔇 Off</button>
+                </div>
+            </div>
+
+            <nav class="grid grid-cols-3 md:flex md:flex-col gap-1.5 mx-1">
+                <button onclick="switchTab('study')" id="btn-study" class="flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-4 w-full px-1 py-2 md:px-4 md:py-3 rounded-xl font-bold text-[11px] sm:text-xs md:text-sm tracking-wide transition-all bg-rose-50 text-[#800000] border-2 border-[#800000]/30 shadow-2xs dark:bg-rose-950/30 dark:text-rose-400 dark:border-rose-900/50">
+                    <span class="text-base md:text-xl">📘</span> <span class="truncate">Learn</span>
+                </button>
+                <button onclick="switchTab('practice')" id="btn-practice" class="flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-4 w-full px-1 py-2 md:px-4 md:py-3 rounded-xl font-bold text-[11px] sm:text-xs md:text-sm tracking-wide transition-all text-slate-500 hover:bg-slate-50 border-2 border-transparent dark:text-slate-400 dark:hover:bg-slate-700">
+                    <span class="text-base md:text-xl">✏️</span> <span class="truncate">Practice</span>
+                </button>
+                <button onclick="switchTab('history')" id="btn-history" class="flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-4 w-full px-1 py-2 md:px-4 md:py-3 rounded-xl font-bold text-[11px] sm:text-xs md:text-sm tracking-wide transition-all text-slate-500 hover:bg-slate-50 border-2 border-transparent dark:text-slate-400 dark:hover:bg-slate-700">
+                    <span class="text-base md:text-xl">📊</span> <span class="truncate">Analytics</span>
+                </button>
+            </nav>
+        </div>
+
+        <div class="hidden md:block pt-4 border-t border-slate-200 text-[11px] font-bold text-slate-400 uppercase tracking-widest text-center dark:border-slate-700 dark:text-slate-500">
+            Local Session Engine
+        </div>
+    </aside>
+
+    <div class="flex-grow flex flex-col min-h-screen">
+        
+        <div class="flex-grow flex justify-center w-full">
+            <main class="max-w-4xl w-full px-4 py-6 md:py-12">
+                
+                <section id="tab-study" class="space-y-8">
+                    <div class="bg-white border-2 border-slate-200 border-t-4 border-t-[#800000] rounded-2xl p-6 md:p-8 shadow-xs flex flex-col md:flex-row items-center gap-6 dark:bg-slate-800 dark:border-slate-700">
+                        <div class="text-5xl md:text-6xl select-none">🦉</div>
+                        <div class="space-y-2">
+                            <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 leading-tight dark:text-white">Master Spatial &amp; Conceptual Frameworks</h2>
+                            <p class="text-slate-500 text-sm font-semibold leading-relaxed dark:text-slate-300">
+                                In university entry assessments, prepositions form the core structural glue. Explore key frameworks below, then move to the Practice Arena to reinforce your memory tracks.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-amber-50/40 border-2 border-amber-200 border-b-4 rounded-2xl p-5 space-y-4 dark:bg-slate-800 dark:border-amber-500/70">
+                            <div class="flex items-center gap-3">
+                                <span class="text-3xl">🕒</span>
+                                <h3 class="text-md font-extrabold text-amber-950 dark:text-amber-400">Prepositions of Time</h3>
+                            </div>
+                            <ul class="space-y-3 text-xs font-bold text-slate-700 dark:text-slate-300">
+                                <li class="bg-white/95 p-2 rounded-xl border border-amber-200/60 shadow-2xs dark:bg-slate-900/60 dark:border-amber-900/30"><span class="text-[#800000] dark:text-amber-400 font-extrabold">at</span> → Exact points (<span class="italic font-normal text-slate-500 dark:text-slate-400">at 7:00 AM, at noon</span>)</li>
+                                <li class="bg-white/95 p-2 rounded-xl border border-amber-200/60 shadow-2xs dark:bg-slate-900/60 dark:border-amber-900/30"><span class="text-[#800000] dark:text-amber-400 font-extrabold">on</span> → Days / Dates (<span class="italic font-normal text-slate-500 dark:text-slate-400">on Monday, on May 15th</span>)</li>
+                                <li class="bg-white/95 p-2 rounded-xl border border-amber-200/60 shadow-2xs dark:bg-slate-900/60 dark:border-amber-900/30"><span class="text-[#800000] dark:text-amber-400 font-extrabold">in</span> → Broad frames (<span class="italic font-normal text-slate-500 dark:text-slate-400">in the morning, in 2026</span>)</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-sky-50/40 border-2 border-sky-200 border-b-4 rounded-2xl p-5 space-y-4 dark:bg-slate-800 dark:border-sky-500/70">
+                            <div class="flex items-center gap-3">
+                                <span class="text-3xl">📍</span>
+                                <h3 class="text-md font-extrabold text-sky-950 dark:text-sky-400">Spatial Frameworks</h3>
+                            </div>
+                            <ul class="space-y-3 text-xs font-bold text-slate-700 dark:text-slate-300">
+                                <li class="bg-white/95 p-2 rounded-xl border border-sky-200/60 shadow-2xs dark:bg-slate-900/60 dark:border-sky-900/30"><span class="text-[#800000] dark:text-sky-400 font-extrabold">at</span> → Specific targets (<span class="italic font-normal text-slate-500 dark:text-slate-400">at the library entrance</span>)</li>
+                                <li class="bg-white/95 p-2 rounded-xl border border-sky-200/60 shadow-2xs dark:bg-slate-900/60 dark:border-sky-900/30"><span class="text-[#800000] dark:text-sky-400 font-extrabold">on</span> → Surfaces / Lines (<span class="italic font-normal text-slate-500 dark:text-slate-400">on textbook page 45</span>)</li>
+                                <li class="bg-white/95 p-2 rounded-xl border border-sky-200/60 shadow-2xs dark:bg-slate-900/60 dark:border-sky-900/30"><span class="text-[#800000] dark:text-sky-400 font-extrabold">in</span> → Enclosed volumes (<span class="italic font-normal text-slate-500 dark:text-slate-400">in the science lab</span>)</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-purple-50/40 border-2 border-purple-200 border-b-4 rounded-2xl p-5 space-y-4 dark:bg-slate-800 dark:border-purple-500/70">
+                            <div class="flex items-center gap-3">
+                                <span class="text-3xl">📝</span>
+                                <h3 class="text-md font-extrabold text-purple-950 dark:text-purple-400">Academic Collocations</h3>
+                            </div>
+                            <ul class="space-y-3 text-xs font-bold text-slate-700 dark:text-slate-300">
+                                <li class="bg-white/95 p-2 rounded-xl border border-purple-200/60 shadow-2xs dark:bg-slate-900/60 dark:border-purple-900/30"><span class="text-[#800000] dark:text-purple-400 font-extrabold">depend on</span> → Determined by (<span class="italic font-normal text-slate-500 dark:text-slate-400">Grades depend on scores.</span>)</li>
+                                <li class="bg-white/95 p-2 rounded-xl border border-purple-200/60 shadow-2xs dark:bg-slate-900/60 dark:border-purple-900/30"><span class="text-[#800000] dark:text-purple-400 font-extrabold">participate in</span> → Take part (<span class="italic font-normal text-slate-500 dark:text-slate-400">Participate in clubs.</span>)</li>
+                                <li class="bg-white/95 p-2 rounded-xl border border-purple-200/60 shadow-2xs dark:bg-slate-900/60 dark:border-purple-900/30"><span class="text-[#800000] dark:text-purple-400 font-extrabold">focus on</span> → Concentrate (<span class="italic font-normal text-slate-500 dark:text-slate-400">Focus on study tasks.</span>)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-white border-2 border-slate-200 border-t-4 border-t-[#800000] rounded-2xl overflow-hidden shadow-2xs dark:bg-slate-800 dark:border-slate-700">
+                        <div class="bg-slate-100 border-b-2 border-slate-200 px-6 py-4 dark:bg-slate-900 dark:border-slate-700">
+                            <h3 class="text-sm font-extrabold text-slate-700 uppercase tracking-wider dark:text-slate-300">High School Lexicon Reference Bank</h3>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm">
+                                <thead>
+                                    <tr class="bg-slate-50 text-slate-400 font-black text-xs uppercase border-b border-slate-200 tracking-wider dark:bg-slate-900/40 dark:border-slate-700">
+                                        <th class="p-4">Preposition</th>
+                                        <th class="p-4">Typology Class</th>
+                                        <th class="p-4">Academic Syntax Sample Sentences</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100 font-semibold text-slate-600 dark:divide-slate-700 dark:text-slate-300">
+                                    <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-900/30">
+                                        <td class="p-4">
+                                            <span class="inline-block font-extrabold text-slate-800 bg-rose-50 border border-rose-100 px-3 py-1.5 rounded-xl text-sm tracking-wide dark:bg-slate-900 dark:text-rose-400 dark:border-rose-900/50">into</span>
+                                        </td>
+                                        <td class="p-4"><span class="px-2.5 py-1 bg-amber-50 text-amber-700 text-xs rounded-lg border border-amber-200 uppercase font-extrabold tracking-wide dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-900/30">Movement</span></td>
+                                        <td class="p-4 text-xs font-medium text-slate-500 dark:text-slate-400">"The students walked <span class="underline font-bold text-slate-800 dark:text-slate-200">into</span> the computer lab to start their exam."</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-900/30">
+                                        <td class="p-4">
+                                            <span class="inline-block font-extrabold text-slate-800 bg-rose-50 border border-rose-100 px-3 py-1.5 rounded-xl text-sm tracking-wide dark:bg-slate-900 dark:text-rose-400 dark:border-rose-900/50">throughout</span>
+                                        </td>
+                                        <td class="p-4"><span class="px-2.5 py-1 bg-purple-50 text-purple-700 text-xs rounded-lg border border-purple-200 uppercase font-extrabold tracking-wide dark:bg-purple-950/40 dark:text-purple-300 dark:border-purple-900/30">Time / Scope</span></td>
+                                        <td class="p-4 text-xs font-medium text-slate-500 dark:text-slate-400">"Students must stay quiet <span class="underline font-bold text-slate-800 dark:text-slate-200">throughout</span> the 90-minute national test."</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-900/30">
+                                        <td class="p-4">
+                                            <span class="inline-block font-extrabold text-slate-800 bg-rose-50 border border-rose-100 px-3 py-1.5 rounded-xl text-sm tracking-wide dark:bg-slate-900 dark:text-rose-400 dark:border-rose-900/50">consist of</span>
+                                        </td>
+                                        <td class="p-4"><span class="px-2.5 py-1 bg-rose-50 text-[#800000] text-xs rounded-lg border border-rose-200 uppercase font-extrabold tracking-wide dark:bg-rose-950/40 dark:text-rose-300 dark:border-rose-900/30">Collocation</span></td>
+                                        <td class="p-4 text-xs font-medium text-slate-500 dark:text-slate-400">"The final English exam will <span class="underline font-bold text-slate-800 dark:text-slate-200">consist of</span> reading and listening sections."</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-900/30">
+                                        <td class="p-4">
+                                            <span class="inline-block font-extrabold text-slate-800 bg-rose-50 border border-rose-100 px-3 py-1.5 rounded-xl text-sm tracking-wide dark:bg-slate-900 dark:text-rose-400 dark:border-rose-900/50">prior to</span>
+                                        </td>
+                                        <td class="p-4"><span class="px-2.5 py-1 bg-blue-50 text-blue-700 text-xs rounded-lg border border-blue-200 uppercase font-extrabold tracking-wide dark:bg-blue-950/40 dark:text-blue-300 dark:border-blue-900/30">Time Link</span></td>
+                                        <td class="p-4 text-xs font-medium text-slate-500 dark:text-slate-400">"Please check your answers carefully <span class="underline font-bold text-slate-800 dark:text-slate-200">prior to</span> handing in your paper."</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="tab-practice" class="hidden space-y-6 max-w-2xl mx-auto">
+                    
+                    <div id="level-selector-pane" class="space-y-6">
+                        <div class="text-center space-y-2 mb-2">
+                            <h3 class="text-2xl font-black text-slate-900 dark:text-white">Choose Your Practice Track</h3>
+                            <p class="text-slate-500 text-sm font-bold dark:text-slate-400">Scaffolded training modules for Indonesian High School English</p>
+                        </div>
+
+                        <div class="bg-white border-2 border-slate-200 rounded-3xl p-5 space-y-3 shadow-3xs dark:bg-slate-800 dark:border-slate-700">
+                            <span class="text-xs font-black text-slate-400 uppercase tracking-widest block text-center sm:text-left dark:text-slate-400">🏅 My Mastery Badges (Requires 100% Score)</span>
+                            <div id="badge-shelf" class="flex flex-wrap justify-center sm:justify-between items-center gap-3 pt-1">
+                                </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-4">
+                            <button onclick="startLevel(1)" class="w-full text-left p-5 bg-white border-2 border-amber-200 border-b-4 hover:bg-amber-50/40 rounded-2xl flex items-center justify-between transition-all group cursor-pointer dark:bg-slate-800 dark:border-amber-500 dark:border-b-amber-600 dark:hover:bg-slate-750">
+                                <div class="flex items-center gap-4">
+                                    <span class="text-4xl p-2 bg-amber-50/60 dark:bg-slate-900 border border-amber-200 dark:border-amber-500/30 rounded-xl shadow-2xs group-hover:scale-105 transition-transform">🕒</span>
+                                    <div>
+                                        <h4 class="font-extrabold text-amber-950 text-base flex items-center gap-2 dark:text-amber-300">Level 1: Timelines &amp; Schedules <span id="badge-indicator-1"></span></h4>
+                                        <p class="text-xs text-amber-800/80 font-bold mt-0.5 dark:text-slate-400">Prepositions of Time (at, on, in) • Basic Academic Timetables</p>
+                                    </div>
+                                </div>
+                                <span class="text-amber-400 group-hover:text-amber-600 dark:group-hover:text-amber-300 font-black text-xl transition-colors">➔</span>
+                            </button>
+
+                            <button onclick="startLevel(2)" class="w-full text-left p-5 bg-white border-2 border-sky-200 border-b-4 hover:bg-sky-50/40 rounded-2xl flex items-center justify-between transition-all group cursor-pointer dark:bg-slate-800 dark:border-sky-500 dark:border-b-sky-600 dark:hover:bg-slate-750">
+                                <div class="flex items-center gap-4">
+                                    <span class="text-4xl p-2 bg-sky-50/60 dark:bg-slate-900 border border-sky-200 dark:border-sky-500/30 rounded-xl shadow-2xs group-hover:scale-105 transition-transform">📍</span>
+                                    <div>
+                                        <h4 class="font-extrabold text-sky-950 text-base flex items-center gap-2 dark:text-sky-300">Level 2: Campus Space &amp; Visual Media <span id="badge-indicator-2"></span></h4>
+                                        <p class="text-xs text-sky-800/80 font-bold mt-0.5 dark:text-slate-400">Spatial Structures (in, on, at, into) • Textbook Pages &amp; Data Charts</p>
+                                    </div>
+                                </div>
+                                <span class="text-sky-400 group-hover:text-sky-600 dark:group-hover:text-sky-300 font-black text-xl transition-colors">➔</span>
+                            </button>
+
+                            <button onclick="startLevel(3)" class="w-full text-left p-5 bg-white border-2 border-purple-200 border-b-4 hover:bg-purple-50/40 rounded-2xl flex items-center justify-between transition-all group cursor-pointer dark:bg-slate-800 dark:border-purple-500 dark:border-b-purple-600 dark:hover:bg-slate-750">
+                                <div class="flex items-center gap-4">
+                                    <span class="text-4xl p-2 bg-purple-50/60 dark:bg-slate-900 border border-purple-200 dark:border-purple-500/30 rounded-xl shadow-2xs group-hover:scale-105 transition-transform">📝</span>
+                                    <div>
+                                        <h4 class="font-extrabold text-purple-950 text-base flex items-center gap-2 dark:text-purple-300">Level 3: Core Academic Collocations <span id="badge-indicator-3"></span></h4>
+                                        <p class="text-xs text-purple-800/80 font-bold mt-0.5 dark:text-slate-400">Fixed Word Pairs (depend on, focus on, consist of, adapt to)</p>
+                                    </div>
+                                </div>
+                                <span class="text-purple-400 group-hover:text-purple-600 dark:group-hover:text-purple-300 font-black text-xl transition-colors">➔</span>
+                            </button>
+
+                            <button onclick="startLevel(4)" class="w-full text-left p-5 bg-white border-2 border-rose-200 border-b-4 hover:bg-rose-50/40 rounded-2xl flex items-center justify-between transition-all group cursor-pointer dark:bg-slate-800 dark:border-rose-500 dark:border-b-rose-600 dark:hover:bg-slate-750">
+                                <div class="flex items-center gap-4">
+                                    <span class="text-4xl p-2 bg-rose-50/60 dark:bg-slate-900 border border-rose-200 dark:border-rose-500/30 rounded-xl shadow-2xs group-hover:scale-105 transition-transform">🎓</span>
+                                    <div>
+                                        <h4 class="font-extrabold text-rose-950 text-base flex items-center gap-2 dark:text-rose-400">Level 4: High School UTBK Try-Out Marathon <span id="badge-indicator-4"></span></h4>
+                                        <p class="text-xs text-rose-800/80 font-bold mt-0.5 dark:text-slate-400">15-Question Advanced Mix Challenge • Strict No-Reuse Exam Dataset</p>
+                                    </div>
+                                </div>
+                                <span class="text-rose-400 group-hover:text-rose-600 dark:group-hover:text-rose-300 font-black text-xl transition-colors">➔</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="active-quiz-container" class="hidden space-y-6">
+                        <div id="stats-dashboard" class="flex items-center justify-between gap-6 bg-white border-2 border-slate-200 rounded-2xl p-4 shadow-2xs dark:bg-slate-800 dark:border-slate-700">
+                            <div class="flex-grow flex items-center gap-3">
+                                <span onclick="resetEvaluationModule()" class="cursor-pointer text-slate-400 font-black hover:text-slate-600 text-lg px-1 dark:hover:text-slate-200">✕</span>
+                                <div class="w-full bg-slate-200 h-4 rounded-full overflow-hidden p-0.5 border border-slate-300 dark:bg-slate-900 dark:border-slate-700">
+                                    <div id="progress-bar-fill" class="bg-[#800000] h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+                                </div>
+                                <span id="stat-progress" class="text-xs font-black text-slate-400 whitespace-nowrap tracking-wide">1 / 5</span>
+                            </div>
+                            
+                            <div class="flex items-center gap-4 shrink-0 font-extrabold text-sm">
+                                <div class="flex items-center gap-1 text-amber-600">
+                                    <span>🔥</span> <span id="stat-score">0 pts</span>
+                                </div>
+                                <div class="flex items-center gap-1 text-emerald-600">
+                                    <span>🛡️</span> <span id="stat-accuracy">0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="quiz-card" class="bg-white border-2 border-slate-200 border-t-4 border-t-[#800000] border-b-4 rounded-3xl p-6 md:p-8 space-y-8 relative dark:bg-slate-800 dark:border-slate-700 dark:border-t-rose-500">
+                            
+                            <div class="flex items-center justify-between border-b border-slate-100 pb-3 dark:border-slate-700">
+                                <span id="question-context-label" class="text-xs font-black text-slate-400 uppercase tracking-widest dark:text-slate-500">DOMAIN FOCUS</span>
+                                <span id="format-badge" class="px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider rounded-lg bg-slate-100 text-slate-500 border border-slate-200 dark:bg-slate-900 dark:text-slate-400 dark:border-slate-700">Format</span>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <div id="instructor-avatar" class="text-4xl select-none p-2 bg-slate-50 rounded-2xl border-2 border-slate-200 dark:bg-slate-900 dark:border-slate-700">👨‍🏫</div>
+                                <div class="relative bg-slate-50 border-2 border-slate-200 rounded-2xl p-4 flex-grow dark:bg-slate-900 dark:border-slate-700">
+                                    <div class="absolute top-5 -left-[9px] w-4 h-4 bg-slate-50 border-l-2 border-b-2 border-slate-200 rotate-45 dark:bg-slate-900 dark:border-slate-700"></div>
+                                    <p id="sentence-display" class="text-base font-bold text-slate-700 leading-relaxed dark:text-slate-200">Loading parameter fields...</p>
+                                </div>
+                            </div>
+
+                            <div id="interaction-sandbox" class="pt-2"></div>
+
+                            <div id="feedback-pane" class="hidden p-5 rounded-2xl border-2 transition-all flex items-start gap-4 mt-6 shadow-2xs">
+                                <span id="feedback-icon" class="text-2xl p-1.5 bg-white rounded-xl shadow-2xs border shrink-0 flex items-center justify-center dark:bg-slate-800"></span>
+                                <div class="space-y-0.5">
+                                    <h4 id="feedback-heading" class="font-extrabold text-sm uppercase tracking-wide"></h4>
+                                    <p id="feedback-text" class="text-xs font-bold opacity-90 leading-relaxed"></p>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-end pt-2">
+                                <button id="next-btn" onclick="handleNextClick()" disabled class="w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold text-sm tracking-wide uppercase shadow-xs cursor-not-allowed bg-slate-200 text-slate-400 border-b-4 border-slate-300 dark:bg-slate-700 dark:text-slate-500 dark:border-slate-800">
+                                    Advance Matrix ➔
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="completion-pane" class="hidden space-y-6 max-w-xl mx-auto">
+                        <div class="bg-white border-2 border-slate-200 border-t-4 border-t-[#800000] border-b-4 rounded-3xl p-8 text-center space-y-6 dark:bg-slate-800 dark:border-slate-700 dark:border-t-rose-500">
+                            <div id="completion-emoji" class="text-6xl animate-bounce">👑</div>
+                            <div class="space-y-2">
+                                <h3 class="text-2xl font-black text-slate-900 dark:text-white">Assessment Diagnostic Completed</h3>
+                                <p id="completion-badge-notice" class="text-slate-400 text-xs font-bold uppercase tracking-wider dark:text-slate-500">Syntactic Preposition Competency Mapping Finalized</p>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                                <div class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-4 dark:bg-slate-900 dark:border-slate-700">
+                                    <span class="text-[10px] font-black text-slate-400 uppercase block tracking-widest dark:text-slate-500">Verified Accuracy</span>
+                                    <span id="final-score-text" class="text-xl font-black text-[#800000] dark:text-rose-400">0 / 5 Correct</span>
+                                </div>
+                                <div class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-4 dark:bg-slate-900 dark:border-slate-700">
+                                    <span class="text-[10px] font-black text-slate-400 uppercase block tracking-widest dark:text-slate-500">Primary Structural Weakness</span>
+                                    <span id="primary-weakness-text" class="text-sm font-black text-slate-700 mt-1 block tracking-tight dark:text-slate-300">Analyzing inputs...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-4 dark:bg-slate-800 dark:border-slate-700">
+                            <h4 class="font-extrabold text-slate-900 text-sm uppercase tracking-wider flex items-center gap-2 dark:text-white">📊 Performance by Formatting Domain</h4>
+                            <div id="category-breakdown-list" class="space-y-4"></div>
+                        </div>
+
+                        <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-4 dark:bg-slate-800 dark:border-slate-700">
+                            <h4 class="font-extrabold text-slate-900 text-sm uppercase tracking-wider flex items-center gap-2 dark:text-white">🔍 Itemized Response Audit Trace Log</h4>
+                            <div id="itemized-audit-log" class="divide-y divide-slate-100 dark:divide-slate-700"></div>
+                        </div>
+
+                        <button onclick="resetEvaluationModule()" class="w-full text-white font-bold text-sm uppercase tracking-wider py-4 px-4 rounded-xl shadow-md transition-all cursor-pointer btn-3d-maroon">
+                            Return to Track Selector
+                        </button>
+                    </div>
+                </section>
+
+                <section id="tab-history" class="hidden space-y-6">
+                    <div class="bg-white border-2 border-slate-200 border-t-4 border-t-[#800000] rounded-2xl p-6 shadow-2xs space-y-6 dark:bg-slate-800 dark:border-slate-700 dark:border-t-rose-500">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                            <div>
+                                <h3 class="text-lg font-extrabold text-slate-900 dark:text-white">Persistent Evaluation Local Archive Logs</h3>
+                                <p class="text-xs font-semibold text-slate-400 dark:text-slate-400">Tracked locally via browser space memory vectors. Click rows to view attempt parameters.</p>
+                            </div>
+                            <button onclick="clearLocalTrackingHistory()" class="text-xs font-bold text-rose-600 hover:bg-rose-50 border-2 border-rose-200 px-4 py-2 rounded-xl transition-all cursor-pointer dark:border-rose-900/50 dark:text-rose-400 dark:hover:bg-slate-900">
+                                Wipe History Data Stack
+                              </button>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-50 text-slate-400 font-black text-xs uppercase tracking-wider border-b border-slate-200 dark:bg-slate-900/60 dark:border-slate-700 dark:text-slate-500">
+                                        <th class="p-4">Timestamp Mark</th>
+                                        <th class="p-4">Accuracy Rate</th>
+                                        <th class="p-4">Points Awarded</th>
+                                        <th class="p-4">Core Focus Target Weakness Area</th>
+                                        <th class="p-4 text-center">Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="history-table-body" class="font-bold text-slate-600 dark:text-slate-300"></tbody>
+                            </table>
+                        </div>
+                        <div id="history-empty-state" class="hidden text-center py-12 text-slate-400 text-sm font-bold dark:text-slate-500">
+                            No historical verification traces compiled. Run active testing arena blocks to record logs.
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-400 w-full dark:bg-slate-800 dark:border-slate-700 dark:text-slate-500">
+            <div class="max-w-6xl mx-auto px-4">
+                EIL Grammar Engine • Operational State: Session Local Architecture.
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const SynthesizedAudioEngine = {
+            ctx: null,
+            isMuted: true, 
+            bgSequenceInterval: null,
+
+            init() {
+                if (!this.ctx) {
+                    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (this.ctx.state === 'suspended') {
+                    this.ctx.resume();
+                }
+            },
+            toggleMute() {
+                this.init();
+                this.isMuted = !this.isMuted;
+                if (this.isMuted) {
+                    this.stopBackgroundTheme();
+                } else {
+                    this.startBackgroundTheme();
+                    this.playClick();
+                }
+                return this.isMuted;
+            },
+            playClick() {
+                if (this.isMuted) return;
+                this.init();
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(450, this.ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(750, this.ctx.currentTime + 0.04);
+                gain.gain.setValueAtTime(0.04, this.ctx.currentTime);
+                gain.gain.linearRampToValueAtTime(0, this.ctx.currentTime + 0.04);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start();
+                osc.stop(this.ctx.currentTime + 0.04);
+            },
+            playCorrect() {
+                if (this.isMuted) return;
+                this.init();
+                const now = this.ctx.currentTime;
+                const playTone = (freq, start, duration) => {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, start);
+                    gain.gain.setValueAtTime(0.06, start);
+                    gain.gain.exponentialRampToValueAtTime(0.001, start + duration);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(start);
+                    osc.stop(start + duration);
+                };
+                playTone(523.25, now, 0.08);     
+                playTone(659.25, now + 0.07, 0.08); 
+                playTone(783.99, now + 0.14, 0.22); 
+            },
+            playIncorrect() {
+                if (this.isMuted) return;
+                this.init();
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(140, now);
+                osc.frequency.linearRampToValueAtTime(75, now + 0.22);
+                gain.gain.setValueAtTime(0.08, now);
+                gain.gain.linearRampToValueAtTime(0, now + 0.22);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start();
+                osc.stop(now + 0.22);
+            },
+            playLevelComplete() {
+                if (this.isMuted) return;
+                this.init();
+                const now = this.ctx.currentTime;
+                const fanfareNotes = [523.25, 659.25, 783.99, 1046.50]; 
+                fanfareNotes.forEach((freq, index) => {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, now + index * 0.1);
+                    gain.gain.setValueAtTime(0.06, now + index * 0.1);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + index * 0.1 + 0.35);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now + index * 0.1);
+                    osc.stop(now + index * 0.1 + 0.35);
+                });
+            },
+            startBackgroundTheme() {
+                if (this.isMuted || this.bgSequenceInterval) return;
+                this.init();
+                let rhythmTracker = 0;
+                const studyMelody = [261.63, 329.63, 392.00, 440.00, 392.00, 329.63]; 
+                this.bgSequenceInterval = setInterval(() => {
+                    if (this.isMuted) return;
+                    const now = this.ctx.currentTime;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(studyMelody[rhythmTracker % studyMelody.length], now);
+                    gain.gain.setValueAtTime(0.01, now); 
+                    gain.gain.exponentialRampToValueAtTime(0.0001, now + 2.2);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 2.2);
+                    rhythmTracker++;
+                }, 2500);
+            },
+            stopBackgroundTheme() {
+                if (this.bgSequenceInterval) {
+                    clearInterval(this.bgSequenceInterval);
+                    this.bgSequenceInterval = null;
+                }
+            }
+        };
+
+        function handleAudioToggle() {
+            const isMuted = SynthesizedAudioEngine.toggleMute();
+            const toggleButton = document.getElementById('audio-toggle-btn');
+            if (isMuted) {
+                toggleButton.innerHTML = "🔇 Off";
+            } else {
+                toggleButton.innerHTML = "🔊 On";
+            }
+        }
+
+        function handleThemeToggle() {
+            SynthesizedAudioEngine.playClick();
+            const documentElement = document.documentElement;
+            let currentTheme = 'light';
+            
+            if (documentElement.classList.contains('dark')) {
+                documentElement.classList.remove('dark');
+                currentTheme = 'light';
+            } else {
+                documentElement.classList.add('dark');
+                currentTheme = 'dark';
+            }
+            
+            try {
+                localStorage.setItem('eil_theme_mode', currentTheme);
+            } catch(e) {}
+            
+            updateThemeUIFramework(currentTheme);
+        }
+
+        function updateThemeUIFramework(theme) {
+            const themeButton = document.getElementById('theme-toggle-btn');
+            if (!themeButton) return;
+            
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+                themeButton.innerHTML = "🌙 Dark";
+            } else {
+                document.documentElement.classList.remove('dark');
+                themeButton.innerHTML = "☀️ Light";
+            }
+        }
+
+        function loadThemeProfile() {
+            try {
+                const savedTheme = localStorage.getItem('eil_theme_mode') || 'light';
+                updateThemeUIFramework(savedTheme);
+            } catch(e) {
+                updateThemeUIFramework('light');
+            }
+        }
+
+        function safeGetAwardedBadges() {
+            try {
+                const dataLog = localStorage.getItem('eil_unlocked_badges');
+                return dataLog ? JSON.parse(dataLog) : { 1: false, 2: false, 3: false, 4: false };
+            } catch (e) {
+                return window.virtualMemoryBadges || { 1: false, 2: false, 3: false, 4: false };
+            }
+        }
+
+        function safeSaveAwardedBadge(levelNumber) {
+            const currentBadgeSet = safeGetAwardedBadges();
+            currentBadgeSet[levelNumber] = true;
+            try {
+                localStorage.setItem('eil_unlocked_badges', JSON.stringify(currentBadgeSet));
+            } catch (e) {
+                window.virtualMemoryBadges = currentBadgeSet;
+            }
+            updateBadgeUIFramework();
+        }
+
+        function updateBadgeUIFramework() {
+            const currentBadgeSet = safeGetAwardedBadges();
+            const badgeMetaConfig = {
+                1: { name: "Time Captain", emoji: "⏱️", colorClass: "bg-amber-100 border-amber-300 text-amber-900 dark:bg-amber-950/40 dark:border-amber-800 dark:text-amber-200" },
+                2: { name: "Campus Explorer", emoji: "📍", colorClass: "bg-sky-100 border-sky-300 text-sky-900 dark:bg-sky-950/40 dark:border-sky-800 dark:text-sky-200" },
+                3: { name: "Phrase Master", emoji: "📝", colorClass: "bg-purple-100 border-purple-300 text-purple-900 dark:bg-purple-950/40 dark:border-purple-800 dark:text-purple-200" },
+                4: { name: "Exam Champion", emoji: "🎓", colorClass: "bg-rose-100 border-rose-300 text-rose-900 dark:bg-rose-950/40 dark:border-rose-800 dark:text-rose-200" }
+            };
+
+            const shelfNode = document.getElementById('badge-shelf');
+            if (!shelfNode) return;
+
+            shelfNode.innerHTML = '';
+            Object.keys(badgeMetaConfig).forEach(lvl => {
+                const config = badgeMetaConfig[lvl];
+                const unlocked = currentBadgeSet[lvl];
+                
+                const badgeBox = document.createElement('div');
+                badgeBox.className = `flex items-center gap-2 px-3 py-2 rounded-xl border font-bold text-xs transition-all ${unlocked ? config.colorClass + ' scale-100 shadow-3xs' : 'bg-slate-50 border-dashed border-slate-200 text-slate-300 grayscale opacity-40 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-600'}`;
+                badgeBox.innerHTML = `<span>${config.emoji}</span> <span class="hidden sm:inline">${config.name}</span>`;
+                shelfNode.appendChild(badgeBox);
+
+                const indicatorNode = document.getElementById(`badge-indicator-${lvl}`);
+                if (indicatorNode) {
+                    indicatorNode.innerHTML = unlocked ? `✅` : ``;
+                }
+            });
+        }
+
+        const avatarPool = ["🦉", "🧑‍🎓", "👩‍🎓", "🎒", "🧠", "🏆", "🌟", "🔥"];
+        function loadUserProfile() {
+            try {
+                const profile = JSON.parse(localStorage.getItem('eil_user_profile')) || { name: "Siswa", avatar: "🦉" };
+                document.getElementById('user-name-input').value = profile.name;
+                document.getElementById('user-avatar-display').innerText = profile.avatar;
+                const instructorNode = document.getElementById('instructor-avatar');
+                if (instructorNode) instructorNode.innerText = profile.avatar;
+            } catch (e) {
+                console.warn("Profile local fetch sandboxed.");
+            }
+        }
+
+        function handleNameChange(newName) {
+            const cleanName = newName.trim() || "Siswa";
+            const currentAvatar = document.getElementById('user-avatar-display').innerText;
+            saveProfileData(cleanName, currentAvatar);
+        }
+
+        function triggerAvatarCycle() {
+            SynthesizedAudioEngine.playClick();
+            const currentAvatar = document.getElementById('user-avatar-display').innerText;
+            let nextIndex = (avatarPool.indexOf(currentAvatar) + 1) % avatarPool.length;
+            if (nextIndex < 0) nextIndex = 0;
+            const newAvatar = avatarPool[nextIndex];
+            
+            document.getElementById('user-avatar-display').innerText = newAvatar;
+            const instructorNode = document.getElementById('instructor-avatar');
+            if (instructorNode) instructorNode.innerText = newAvatar;
+            const currentName = document.getElementById('user-name-input').value;
+            saveProfileData(currentName, newAvatar);
+        }
+
+        function saveProfileData(name, avatar) {
+            try {
+                localStorage.setItem('eil_user_profile', JSON.stringify({ name, avatar }));
+            } catch(e){}
+        }
+    </script>
+
+    <script>
+        const masterComprehensiveRepository = [
+            // === LEVEL 1 ===
+            { id: 1, level: 1, formatType: "Writing Production", domain: "Prepositions of Time", sentence: "In Indonesia, the morning high school flag ceremony always starts ___ 7:00 AM.", correctAnswers: ["at"], promptContext: "Type the time boundary preposition.", explanation: "We use 'at' for precise, specific clock coordinates like 7:00 AM." },
+            { id: 2, level: 1, formatType: "True / False", domain: "Prepositions of Time", sentence: "CRITIQUE SYNTAX: 'The registration deadline for the national university entrance exam will close *on* May 15th.'", choices: ["True (Grammatically Valid)", "False (Contains Error)"], correct: "True (Grammatically Valid)", explanation: "Correct. We use 'on' for specific calendar dates and days of the week." },
+            { id: 3, level: 1, formatType: "Contextual Selection", domain: "Prepositions of Time", sentence: "The schedule for the school mid-term exam is strict. The final test will begin exactly ___ noon.", choices: ["in", "on", "at", "by"], correct: "at", explanation: "Use 'at' for specific daily clock targets like noon, midnight, or 12:00." },
+            { id: 4, level: 1, formatType: "Writing Production", domain: "Prepositions of Time", sentence: "Our high school principal announced that the new academic year will start ___ July.", correctAnswers: ["in"], promptContext: "Type the month preposition.", explanation: "We use 'in' for longer spans of time like months, years, or seasons." },
+            { id: 5, level: 1, formatType: "True / False", domain: "Prepositions of Time", sentence: "CRITIQUE SYNTAX: 'The English club members hold extra presentation training shifts *at* Saturdays.'", choices: ["True (Grammatically Valid)", "False (Contains Error)"], correct: "False (Contains Error)", explanation: "Incorrect usage. Days of the week require 'on' (on Saturday, on Monday)." },
+            { id: 6, level: 1, formatType: "Contextual Selection", domain: "Prepositions of Time", sentence: "Many high school senior students prefer studying for their university try-out tests ___ the evening.", choices: ["at", "on", "in", "through"], correct: "in", explanation: "The specific phrase is 'in the evening' (also 'in the morning / afternoon')." },
+
+            // === LEVEL 2 ===
+            { id: 7, level: 2, formatType: "Writing Production", domain: "Spatial Frameworks", sentence: "The class captain uploaded the shared homework file ___ the school drive folder.", correctAnswers: ["to", "onto"], promptContext: "Type the target directional preposition.", explanation: "We transfer or upload files 'to' or 'onto' digital tracks and servers." },
+            { id: 8, level: 2, formatType: "True / False", domain: "Spatial Frameworks", sentence: "CRITIQUE SYNTAX: 'For our reading task, please open your textbooks and look at the picture *in* page 45.'", choices: ["True (Grammatically Valid)", "False (Contains Error)"], correct: "False (Contains Error)", explanation: "Incorrect syntax. Flat pages and sheets require the surface preposition 'on'." },
+            { id: 9, level: 2, formatType: "True / False", domain: "Spatial Frameworks", sentence: "CRITIQUE SYNTAX: 'The teacher asked all high school students to line up nicely *in* the main school hall.'", choices: ["True (Grammatically Valid)", "False (Contains Error)"], correct: "True (Grammatically Valid)", explanation: "Correct syntax. 'In' indicates presence inside an enclosed structure or room." },
+            { id: 10, level: 2, formatType: "Contextual Selection", domain: "Spatial Frameworks", sentence: "The geography teacher showed a map. The data lines visualized ___ the chart show population shifts.", choices: ["on", "at", "in", "into"], correct: "on", explanation: "Use 'on' for data or prints drawn on a flat 2D chart, map, screen, or graph." },
+            { id: 11, level: 2, formatType: "Writing Production", domain: "Spatial Frameworks", sentence: "The students walked quietly ___ the computer lab to start their listening test.", correctAnswers: ["into", "in"], promptContext: "Type the movement preposition.", explanation: "Moving from the outside to the inside of an area is described by 'into'." },
+            { id: 12, level: 2, formatType: "Contextual Selection", domain: "Spatial Frameworks", sentence: "Siti left her English notebook ___ the library front desk yesterday morning.", choices: ["on", "at", "in", "into"], correct: "at", explanation: "'At' targets a specific point, spot, or landmark workspace on campus." },
+
+            // === LEVEL 3 ===
+            { id: 13, level: 3, formatType: "Writing Production", domain: "Academic Collocations", sentence: "Your final grade in the English course depends ___ your presentation score.", correctAnswers: ["on", "upon"], promptContext: "Type the missing word pair preposition.", explanation: "The verb 'depend' always collocates with 'on' or 'upon'." },
+            { id: 14, level: 3, formatType: "True / False", domain: "Academic Collocations", sentence: "CRITIQUE SYNTAX: 'All high school seniors are encouraged to actively participate *with* the science fair.'", choices: ["True (Grammatically Valid)", "False (Contains Error)"], correct: "False (Contains Error)", explanation: "Incorrect phrase. The verb 'participate' requires 'in' when joining an activity." },
+            { id: 15, level: 3, formatType: "Contextual Selection", domain: "Academic Collocations", sentence: "The upcoming national try-out test will consist ___ forty reading comprehension questions.", choices: ["of", "in", "with", "by"], correct: "of", explanation: "'Consist of' means to be formed from or made up of specific parts." },
+            { id: 16, level: 3, formatType: "Contextual Selection", domain: "Academic Collocations", sentence: "Students must review their vocabulary meaning cards ___ to taking the final exam.", choices: ["prior", "before", "in", "at"], correct: "prior", explanation: "The fixed academic idiom is 'prior to', which functions as a formal word for 'before'." },
+            { id: 17, level: 3, formatType: "Contextual Selection", domain: "Academic Collocations", sentence: "When moving to a new high school, students must adapt quickly ___ the new schedule.", choices: ["with", "to", "on", "at"], correct: "to", explanation: "The verb 'adapt' links with 'to' to indicate adjusting to a new standard." },
+            { id: 18, level: 3, formatType: "Writing Production", domain: "Academic Collocations", sentence: "For this group assignment, our team needs to focus ___ solving the grammar questions.", correctAnswers: ["on"], promptContext: "Type the missing verb-pair preposition.", explanation: "The verb 'focus' goes together with 'on' to denote targeted attention." },
+
+            // === LEVEL 4: EXAM CHALLENGE MARATHON ===
+            { id: 19, level: 4, formatType: "Contextual Selection", domain: "UTBK Marathon", sentence: "UTBK exam preparation requires dedication. High performance depends entirely ___ steady practice rules.", choices: ["on", "with", "at", "in"], correct: "on", explanation: "'Depend' pairs with 'on' even inside complex reading comprehension sentences." },
+            { id: 20, level: 4, formatType: "Writing Production", domain: "UTBK Marathon", sentence: "Students must remain focused and completely silent ___ the 90-minute national test session.", correctAnswers: ["throughout", "during"], promptContext: "Type the duration preposition.", explanation: "'Throughout' indicates that the condition is held across every minute of the event." },
+            { id: 21, level: 4, formatType: "Writing Production", domain: "UTBK Marathon", sentence: "Look ___ the notice board outside the teacher's office to find the final schedule.", correctAnswers: ["at"], promptContext: "Type the target point preposition.", explanation: "The phrase 'look at' directs vision toward a targeted point on a wall or board." },
+            { id: 22, level: 4, formatType: "True / False", domain: "UTBK Marathon", sentence: "CRITIQUE SYNTAX: 'To achieve a high score, students must concentrate *with* their weak reading topics.'", choices: ["True (Grammatically Valid)", "False (Contains Error)"], correct: "False (Contains Error)", explanation: "Incorrect collocation. The academic verb 'concentrate' requires the preposition 'on'." },
+            { id: 23, level: 4, formatType: "Contextual Selection", domain: "UTBK Marathon", sentence: "The biology project requires collaboration. Students must work ___ groups of four to complete tasks.", choices: ["in", "by", "with", "at"], correct: "in", explanation: "When dividing students into arrangements or group teams, we use the phrase 'in groups'." },
+            { id: 24, level: 4, formatType: "True / False", domain: "UTBK Marathon", sentence: "CRITIQUE SYNTAX: 'Please pass your answer sheets *to* the class teacher before the bell rings.'", choices: ["True (Grammatically Valid)", "False (Contains Error)"], correct: "True (Grammatically Valid)", explanation: "Correct text. 'To' acts as the correct directional pointer toward the receiver of an item." },
+            { id: 25, level: 4, formatType: "Contextual Selection", domain: "UTBK Marathon", sentence: "The OSIS student council leaders met yesterday ___ the afternoon to draft the school festival budget.", choices: ["at", "on", "in", "during"], correct: "in", explanation: "We use 'in the afternoon' for daily multi-hour blocks of solar position time." },
+            { id: 26, level: 4, formatType: "Writing Production", domain: "UTBK Marathon", sentence: "The vocabulary definitions listed ___ the bottom of page 12 provide helpful context clues.", correctAnswers: ["at"], promptContext: "Type the boundary location preposition.", explanation: "Use 'at' to mark precise terminal locations on a physical or layout axis ('at the bottom')." },
+            { id: 27, level: 4, formatType: "True / False", domain: "UTBK Marathon", sentence: "CRITIQUE SYNTAX: 'Budi is traveling on foot because his parents are arriving *in* Tuesday morning.'", choices: ["True (Grammatically Valid)", "False (Contains Error)"], correct: "False (Contains Error)", explanation: "Days of the week require 'on' (e.g., 'on Tuesday morning')." },
+            { id: 28, level: 4, formatType: "Contextual Selection", domain: "UTBK Marathon", sentence: "All dynamic research data sets compiled by the high school science team were written ___ a clean spreadsheet table.", choices: ["into", "onto", "at", "by"], correct: "into", explanation: "Writing metrics down directly into text parameters inside a field boundary uses 'into'." },
+            { id: 29, level: 4, formatType: "Writing Production", domain: "UTBK Marathon", sentence: "Students who participate ___ the English debate competition receive a regional OSIS certificate.", correctAnswers: ["in"], promptContext: "Type the missing collocation preposition.", explanation: "The verb 'participate' requires 'in' when describing active involvement." },
+            { id: 30, level: 4, formatType: "True / False", domain: "UTBK Marathon", sentence: "CRITIQUE SYNTAX: 'The final diagnostic ranking list will be officially pinned *on* the front gate entrance.'", choices: ["True (Grammatically Valid)", "False (Contains Error)"], correct: "True (Grammatically Valid)", explanation: "Correct. Items attached to flat surfaces or walls are positioned 'on' that element." },
+            { id: 31, level: 4, formatType: "Contextual Selection", domain: "UTBK Marathon", sentence: "The vice-principal requested that students return their borrowed laboratory gear prior ___ leaving campus.", choices: ["to", "with", "at", "for"], correct: "to", explanation: "The fixed academic transition phrase is always 'prior to'." },
+            { id: 32, level: 4, formatType: "Writing Production", domain: "UTBK Marathon", sentence: "The language laboratory rules are strict; no eating is allowed ___ any circumstances.", correctAnswers: ["under"], promptContext: "Type the conditional modifier preposition.", explanation: "The target conditional collocation phrase is 'under any circumstances'." },
+            { id: 33, level: 4, formatType: "True / False", domain: "UTBK Marathon", sentence: "CRITIQUE SYNTAX: 'The headmaster first established the local high school library framework *in* the year 1998.'", choices: ["True (Grammatically Valid)", "False (Contains Error)"], correct: "True (Grammatically Valid)", explanation: "Correct. Calendar years use the broad timeframe preposition 'in'." },
+            { id: 34, level: 4, formatType: "Contextual Selection", domain: "UTBK Marathon", sentence: "Siti successfully adapted her presentation layout ___ the needs of her high school classmates.", choices: ["with", "to", "at", "for"], correct: "to", explanation: "The verb 'adapt' links with 'to' to express adjustment for a target criteria." },
+            { id: 35, level: 4, formatType: "Writing Production", domain: "UTBK Marathon", sentence: "The math teacher drew four separate geographic geometric curves ___ the chalkboard.", correctAnswers: ["on"], promptContext: "Type the surface indicator preposition.", explanation: "Flat writing media elements like chalkboards or walls use 'on'." },
+            { id: 36, level: 4, formatType: "True / False", domain: "UTBK Marathon", sentence: "CRITIQUE SYNTAX: 'The regional try-out scores for senior high schools fluctuate wildly *at* the winter season.'", choices: ["True (Grammatically Valid)", "False (Contains Error)"], correct: "False (Contains Error)", explanation: "Incorrect. Climate periods and seasons use 'in' ('in the winter', 'in the dry season')." },
+            { id: 37, level: 4, formatType: "Contextual Selection", domain: "UTBK Marathon", sentence: "Our group presentation on Indonesian economic histories will consist ___ three structured segments.", choices: ["of", "in", "by", "with"], correct: "of", explanation: "'Consist' requires 'of' to outline the component architecture of an item." },
+            { id: 38, level: 4, formatType: "Writing Production", domain: "UTBK Marathon", sentence: "The student registration portal closes exactly ___ midnight before the national exam date.", correctAnswers: ["at"], promptContext: "Type the time point preposition.", explanation: "Exact daily temporal boundaries ('midnight', 'noon') use 'at'." }
+        ];
+
+        let selectedTrackLevel = 1;
+        let dynamicActiveSessionSet = [];
+        let currentIndex = 0;
+        let runningScore = 0;
+        let correctCount = 0;
+        let currentSelectionSubmitted = false;
+        let userSessionResponseHistory = [];
+
+        window.addEventListener('DOMContentLoaded', () => {
+            populateHistoryTableUI();
+            updateBadgeUIFramework();
+            loadUserProfile();
+            loadThemeProfile();
+        });
+
+        function startLevel(levelNumber) {
+            SynthesizedAudioEngine.playClick();
+            selectedTrackLevel = levelNumber;
+            const levelFilteredPool = masterComprehensiveRepository.filter(q => q.level === levelNumber);
+            
+            for (let i = levelFilteredPool.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [levelFilteredPool[i], levelFilteredPool[j]] = [levelFilteredPool[j], levelFilteredPool[i]];
+            }
+            
+            const questionsCountToDraw = (levelNumber === 4) ? 15 : 5;
+            dynamicActiveSessionSet = levelFilteredPool.slice(0, questionsCountToDraw);
+            
+            document.getElementById('level-selector-pane').classList.add('hidden');
+            document.getElementById('active-quiz-container').classList.remove('hidden');
+            
+            currentIndex = 0;
+            runningScore = 0;
+            correctCount = 0;
+            userSessionResponseHistory = [];
+            
+            document.getElementById('stat-score').innerText = "0 pts";
+            document.getElementById('stat-accuracy').innerText = "0";
+
+            renderActiveQuestion();
+        }
+
+        function switchTab(targetTab) {
+            SynthesizedAudioEngine.playClick();
+            const tabs = ['study', 'practice', 'history'];
+            tabs.forEach(t => {
+                const element = document.getElementById(`tab-${t}`);
+                const btn = document.getElementById(`btn-${t}`);
+                if(t === targetTab) {
+                    element.classList.remove('hidden');
+                    btn.className = "flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-4 w-full px-1 py-2 md:px-4 md:py-3 rounded-xl font-bold text-[11px] sm:text-xs md:text-sm tracking-wide transition-all bg-rose-50 text-[#800000] border-2 border-[#800000]/30 shadow-2xs dark:bg-rose-950/30 dark:text-rose-400 dark:border-rose-900/50";
+                } else {
+                    element.classList.add('hidden');
+                    btn.className = "flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-4 w-full px-1 py-2 md:px-4 md:py-3 rounded-xl font-bold text-[11px] sm:text-xs md:text-sm tracking-wide transition-all text-slate-500 hover:bg-slate-50 border-2 border-transparent w-full dark:text-slate-400 dark:hover:bg-slate-700";
+                }
+            });
+
+            if(targetTab === 'practice') {
+                document.getElementById('level-selector-pane').classList.remove('hidden');
+                document.getElementById('active-quiz-container').classList.add('hidden');
+                document.getElementById('completion-pane').classList.add('hidden');
+                updateBadgeUIFramework();
+                loadUserProfile();
+            } else if (targetTab === 'history') {
+                populateHistoryTableUI();
+            }
+        }
+
+        function renderActiveQuestion() {
+            if (currentIndex >= dynamicActiveSessionSet.length) {
+                compileAndDisplayDiagnostics();
+                return;
+            }
+
+            currentSelectionSubmitted = false;
+            const currentItem = dynamicActiveSessionSet[currentIndex];
+
+            document.getElementById('quiz-card').classList.remove('hidden');
+            document.getElementById('completion-pane').classList.add('hidden');
+            document.getElementById('feedback-pane').classList.add('hidden');
+            
+            const percentageProgress = (currentIndex / dynamicActiveSessionSet.length) * 100;
+            document.getElementById('progress-bar-fill').style.width = `${percentageProgress}%`;
+            
+            const nextBtn = document.getElementById('next-btn');
+            nextBtn.disabled = true;
+            nextBtn.className = "w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold text-sm tracking-wide uppercase shadow-xs cursor-not-allowed bg-slate-200 text-slate-400 border-b-4 border-slate-300 dark:bg-slate-700 dark:text-slate-500 dark:border-slate-800";
+
+            document.getElementById('stat-progress').innerText = `${currentIndex + 1} / ${dynamicActiveSessionSet.length}`;
+            document.getElementById('format-badge').innerText = currentItem.formatType;
+            document.getElementById('question-context-label').innerText = `LEVEL ${currentItem.level} • ${currentItem.domain.toUpperCase()}`;
+
+            const sandbox = document.getElementById('interaction-sandbox');
+            sandbox.innerHTML = '';
+
+            if (currentItem.formatType === "Writing Production") {
+                const sentenceFormat = currentItem.sentence.replace("___", `<span id="blank-space" class="mx-1 bg-slate-100 text-[#800000] border-b-4 border-[#800000] px-4 font-black rounded-t-lg dark:bg-slate-900 dark:text-rose-400">_____</span>`);
+                document.getElementById('sentence-display').innerHTML = `<span class="block text-xs font-black text-slate-400 uppercase tracking-wide mb-1 dark:text-slate-500">Instruction: ${currentItem.promptContext}</span>${sentenceFormat}`;
+
+                sandbox.innerHTML = `
+                    <div class="flex flex-col sm:flex-row gap-4 max-w-md">
+                        <input type="text" id="writing-input" placeholder="Type answer here..." class="flex-grow border-2 border-slate-200 bg-slate-50 font-bold rounded-xl px-4 py-3.5 text-base focus:outline-none focus:border-[#800000] dark:focus:border-rose-400 focus:bg-white placeholder:text-slate-300 transition-all shadow-2xs dark:bg-slate-900 dark:border-slate-700 dark:text-slate-200">
+                        <button onclick="evaluateWritingProduction()" id="submit-write-btn" class="text-white font-bold text-sm uppercase tracking-wider px-6 py-3.5 rounded-xl shadow-md transition-all cursor-pointer btn-3d-maroon">Check Response</button>
+                    </div>
+                `;
+
+                document.getElementById('writing-input').focus();
+                document.getElementById('writing-input').addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') evaluateWritingProduction();
+                });
+
+            } else {
+                const sentenceFormat = currentItem.sentence.replace("___", `<span id="blank-space" class="mx-1 bg-slate-100 text-slate-800 border-2 border-dashed border-slate-300 px-4 font-black rounded-lg dark:bg-slate-900 dark:text-slate-200 dark:border-slate-600">_____</span>`);
+                document.getElementById('sentence-display').innerHTML = sentenceFormat;
+
+                const choices = currentItem.choices;
+                const buttonGrid = document.createElement('div');
+                buttonGrid.className = "grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl";
+
+                choices.forEach(opt => {
+                    const button = document.createElement('button');
+                    button.innerText = opt;
+                    button.className = "w-full text-left px-5 py-4 font-bold text-slate-700 text-base shadow-2xs cursor-pointer btn-3d-gray dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700 dark:border-b-slate-900";
+                    button.onclick = () => evaluateSelectionResponse(opt, button);
+                    buttonGrid.appendChild(button);
+                });
+                sandbox.appendChild(buttonGrid);
+            }
+        }
+
+        function evaluateSelectionResponse(selectedOption, targetButton) {
+            if (currentSelectionSubmitted) return;
+            currentSelectionSubmitted = true;
+
+            const currentItem = dynamicActiveSessionSet[currentIndex];
+            const targetAnswerKey = currentItem.correct;
+            
+            const isCorrect = (selectedOption === targetAnswerKey);
+            finalizeFeedbackState(isCorrect, selectedOption, targetAnswerKey, currentItem.explanation);
+
+            if (isCorrect) {
+                SynthesizedAudioEngine.playCorrect();
+                targetButton.className = "w-full text-left px-5 py-4 border-2 border-emerald-500 bg-emerald-50 rounded-xl font-extrabold text-emerald-900 text-base border-b-4 dark:bg-emerald-950/30 dark:text-emerald-300";
+            } else {
+                SynthesizedAudioEngine.playIncorrect();
+                targetButton.className = "w-full text-left px-5 py-4 border-2 border-rose-500 bg-rose-50 rounded-xl font-extrabold text-rose-900 text-base border-b-4 dark:bg-rose-950/30 dark:text-rose-300";
+                highlightCorrectSelectionButton(targetAnswerKey);
+            }
+        }
+
+        function evaluateWritingProduction() {
+            if (currentSelectionSubmitted) return;
+            
+            const inputField = document.getElementById('writing-input');
+            const processedInput = inputField.value.trim().toLowerCase();
+            if (!processedInput) return;
+
+            currentSelectionSubmitted = true;
+            const currentItem = dynamicActiveSessionSet[currentIndex];
+            
+            const isCorrect = currentItem.correctAnswers.includes(processedInput);
+            const targetDisplayKey = currentItem.correctAnswers.join(" / ");
+
+            inputField.disabled = true;
+            document.getElementById('submit-write-btn').disabled = true;
+            document.getElementById('submit-write-btn').className = "bg-slate-100 text-slate-300 font-bold text-sm uppercase px-6 py-3.5 rounded-xl cursor-not-allowed border-2 border-slate-200 dark:bg-slate-800 dark:text-slate-600 dark:border-slate-700";
+
+            if (isCorrect) {
+                SynthesizedAudioEngine.playCorrect();
+            } else {
+                SynthesizedAudioEngine.playIncorrect();
+            }
+
+            finalizeFeedbackState(isCorrect, inputField.value.trim(), targetDisplayKey, currentItem.explanation);
+        }
+
+        function highlightCorrectSelectionButton(correctKey) {
+            const buttons = document.getElementById('interaction-sandbox').getElementsByTagName('button');
+            for (let btn of buttons) {
+                if (btn.innerText === correctKey) {
+                    btn.className = "w-full text-left px-5 py-4 border-2 border-emerald-500 bg-emerald-50 rounded-xl font-extrabold text-emerald-900 text-base border-b-4 dark:bg-emerald-950/30 dark:text-emerald-300";
+                }
+            }
+        }
+
+        function finalizeFeedbackState(isCorrect, userText, correctText, explanation) {
+            const blankSpace = document.getElementById('blank-space');
+            const feedbackPane = document.getElementById('feedback-pane');
+            const feedbackIcon = document.getElementById('feedback-icon');
+            const feedbackHeading = document.getElementById('feedback-heading');
+            const feedbackText = document.getElementById('feedback-text');
+
+            if (blankSpace) {
+                blankSpace.innerText = userText ? userText : "_____";
+                blankSpace.classList.remove('bg-slate-100', 'border-dashed', 'border-slate-300');
+            }
+
+            userSessionResponseHistory.push({
+                questionItem: dynamicActiveSessionSet[currentIndex],
+                userChoice: userText,
+                isCorrect: isCorrect
+            });
+
+            if (isCorrect) {
+                correctCount++;
+                if (blankSpace) blankSpace.className = "mx-1 bg-emerald-100 border-2 border-emerald-500 text-emerald-900 px-4 font-black rounded-lg dark:bg-emerald-950 dark:text-emerald-300 dark:border-emerald-500";
+                feedbackPane.className = "flex items-start gap-4 p-5 rounded-2xl border-2 border-emerald-200 bg-emerald-50 text-emerald-900 mt-6 shadow-2xs w-full dark:bg-emerald-950/30 dark:border-emerald-900 dark:text-emerald-300";
+                feedbackIcon.innerText = "🎉";
+                feedbackHeading.innerText = "Excellent Work!";
+            } else {
+                if (blankSpace) blankSpace.className = "mx-1 bg-rose-100 border-2 border-rose-500 text-rose-900 px-4 font-black rounded-lg dark:bg-rose-950 dark:text-rose-300 dark:border-rose-500";
+                feedbackPane.className = "flex items-start gap-4 p-5 rounded-2xl border-2 border-rose-200 bg-rose-50 text-rose-900 mt-6 shadow-2xs w-full dark:bg-rose-950/30 dark:border-rose-900 dark:text-rose-300";
+                feedbackIcon.innerText = "💡";
+                feedbackHeading.innerText = `Correct Solution: "${correctText}"`;
+            }
+
+            feedbackText.innerText = explanation;
+            feedbackPane.classList.remove('hidden');
+
+            // Dynamic grading normalization formula to cap at 100 points max across any level size
+            runningScore = Math.round((correctCount / dynamicActiveSessionSet.length) * 100);
+            document.getElementById('stat-score').innerText = `${runningScore} pts`;
+            document.getElementById('stat-accuracy').innerText = correctCount;
+
+            const nextBtn = document.getElementById('next-btn');
+            nextBtn.disabled = false;
+            nextBtn.className = "w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold text-sm tracking-wide uppercase shadow-md text-white transition-all cursor-pointer btn-3d-maroon";
+        }
+
+        function handleNextClick() {
+            SynthesizedAudioEngine.playClick();
+            currentIndex++;
+            renderActiveQuestion();
+        }
+
+        function compileAndDisplayDiagnostics() {
+            document.getElementById('active-quiz-container').classList.add('hidden');
+            
+            const completionPane = document.getElementById('completion-pane');
+            completionPane.classList.remove('hidden');
+
+            document.getElementById('final-score-text').innerText = `${correctCount} / ${dynamicActiveSessionSet.length} Correct`;
+
+            const formatMetrics = {
+                "Writing Production": { total: 0, correct: 0 },
+                "True / False": { total: 0, correct: 0 },
+                "Contextual Selection": { total: 0, correct: 0 }
+            };
+
+            userSessionResponseHistory.forEach(log => {
+                const fmt = log.questionItem.formatType;
+                if (formatMetrics[fmt]) {
+                    formatMetrics[fmt].total++;
+                    if (log.isCorrect) formatMetrics[fmt].correct++;
+                }
+            });
+
+            const breakdownContainer = document.getElementById('category-breakdown-list');
+            breakdownContainer.innerHTML = '';
+            
+            let lowestScoreRatio = 1;
+            let targetWeaknessIdentity = "None! Balanced Performance.";
+
+            Object.keys(formatMetrics).forEach(fmtName => {
+                const data = formatMetrics[fmtName];
+                if (data.total === 0) return;
+                
+                const percentage = Math.round((data.correct / data.total) * 100);
+                const ratio = data.correct / data.total;
+
+                if (ratio < lowestScoreRatio) {
+                    lowestScoreRatio = ratio;
+                    targetWeaknessIdentity = fmtName;
+                } else if (ratio === lowestScoreRatio && ratio < 1) {
+                    targetWeaknessIdentity = "Mixed Structural Profiles";
+                }
+
+                const progressColor = percentage >= 80 ? 'bg-emerald-500' : percentage >= 50 ? 'bg-amber-500' : 'bg-rose-500';
+
+                const block = document.createElement('div');
+                block.className = "space-y-1.5";
+                block.innerHTML = `
+                    <div class="flex justify-between text-xs font-bold">
+                        <span class="text-slate-700 dark:text-slate-300">${fmtName} Mode</span>
+                        <span class="text-slate-500 dark:text-slate-400">${data.correct}/${data.total} (${percentage}%)</span>
+                    </div>
+                    <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden p-0.5 border border-slate-200 dark:bg-slate-900 dark:border-slate-700">
+                        <div class="${progressColor} h-full rounded-full transition-all" style="width: ${percentage}%"></div>
+                    </div>
+                `;
+                breakdownContainer.appendChild(block);
+            });
+
+            if (correctCount === dynamicActiveSessionSet.length) {
+                targetWeaknessIdentity = "All Formats Proficient";
+            }
+            document.getElementById('primary-weakness-text').innerText = targetWeaknessIdentity;
+
+            const auditContainer = document.getElementById('itemized-audit-log');
+            auditContainer.innerHTML = '';
+
+            userSessionResponseHistory.forEach((log, idx) => {
+                const logRow = document.createElement('div');
+                logRow.className = "py-4 flex flex-col sm:flex-row sm:items-start justify-between gap-4";
+                
+                const badgeColor = log.isCorrect ? "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-900" : "bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/40 dark:text-rose-300 dark:border-rose-900";
+                const traceIcon = log.isCorrect ? "✓" : "✗";
+                const cleanedSentenceDisplay = log.questionItem.sentence.replace("___", `<span class="underline font-black text-[#800000] dark:text-rose-400">${log.userChoice || "None"}</span>`);
+
+                logRow.innerHTML = `
+                    <div class="space-y-1 max-w-xl">
+                        <div class="text-sm font-bold text-slate-800 dark:text-slate-200">${idx + 1}. ${cleanedSentenceDisplay}</div>
+                        <p class="text-xs text-slate-400 font-semibold italic dark:text-slate-500">${log.questionItem.explanation}</p>
+                    </div>
+                    <div class="flex items-center gap-2 shrink-0">
+                        <span class="text-[10px] font-black bg-slate-100 border border-slate-200 px-2 py-0.5 rounded-md text-slate-500 uppercase tracking-wider dark:bg-slate-900 dark:border-slate-700 dark:text-slate-400">${log.questionItem.domain}</span>
+                        <span class="text-xs border px-3 py-0.5 rounded-full font-extrabold ${badgeColor}">${traceIcon} Log</span>
+                    </div>
+                `;
+                auditContainer.appendChild(logRow);
+            });
+
+            const wasPerfectScore = (correctCount === dynamicActiveSessionSet.length);
+            if (wasPerfectScore) {
+                safeSaveAwardedBadge(selectedTrackLevel);
+                document.getElementById('completion-emoji').innerText = "🏆";
+                document.getElementById('completion-badge-notice').innerText = "Perfect Score! Gold Mastery Badge Awarded.";
+                document.getElementById('completion-badge-notice').className = "text-amber-600 text-xs font-black uppercase tracking-wider dark:text-amber-400";
+            } else {
+                document.getElementById('completion-emoji').innerText = "👑";
+                document.getElementById('completion-badge-notice').innerText = "Badge requires 100% accuracy. Try again for a perfect run!";
+                document.getElementById('completion-badge-notice').className = "text-slate-400 text-xs font-bold uppercase tracking-wider dark:text-slate-500";
+            }
+            
+            SynthesizedAudioEngine.playLevelComplete();
+            saveAttemptToLocalStorage(correctCount, runningScore, `Level ${selectedTrackLevel}: ${targetWeaknessIdentity}`);
+        }
+
+        function toggleHistoryAccordianRow(index) {
+            SynthesizedAudioEngine.playClick();
+            const targetPanel = document.getElementById(`history-expanded-panel-${index}`);
+            const targetCaret = document.getElementById(`history-caret-${index}`);
+            
+            if (targetPanel.classList.contains('hidden')) {
+                targetPanel.classList.remove('hidden');
+                targetCaret.innerText = "▲";
+                targetCaret.className = "p-4 text-center text-[#800000] dark:text-rose-400 font-black text-sm select-none";
+            } else {
+                targetPanel.classList.add('hidden');
+                targetCaret.innerText = "▼";
+                targetCaret.className = "p-4 text-center text-slate-300 dark:text-slate-600 font-black text-sm select-none";
+            }
+        }
+
+        function saveAttemptToLocalStorage(score, points, weakness) {
+            try {
+                const historyLog = JSON.parse(localStorage.getItem('eil_multi_format_history')) || [];
+                const payload = {
+                    timestamp: new Date().toLocaleString(),
+                    accuracy: `${score} / ${dynamicActiveSessionSet.length}`,
+                    points: `${points} pts`,
+                    weakness: weakness,
+                    responses: JSON.parse(JSON.stringify(userSessionResponseHistory))
+                };
+                historyLog.unshift(payload);
+                localStorage.setItem('eil_multi_format_history', JSON.stringify(historyLog));
+            } catch (e) {
+                console.warn("Storage write sandboxed or failed.");
+            }
+        }
+
+        function populateHistoryTableUI() {
+            try {
+                const historyLog = JSON.parse(localStorage.getItem('eil_multi_format_history')) || [];
+                const tableBody = document.getElementById('history-table-body');
+                const emptyState = document.getElementById('history-empty-state');
+                if (!tableBody) return;
+
+                tableBody.innerHTML = '';
+
+                if (historyLog.length === 0) {
+                    emptyState.classList.remove('hidden');
+                    return;
+                }
+                emptyState.classList.add('hidden');
+
+                historyLog.forEach((item, index) => {
+                    const mainRow = document.createElement('tr');
+                    mainRow.className = "hover:bg-slate-100/70 border-b border-slate-100 dark:border-slate-700 dark:hover:bg-slate-900/40 cursor-pointer transition-colors";
+                    mainRow.setAttribute("onclick", `toggleHistoryAccordianRow(${index})`);
+                    mainRow.innerHTML = `
+                        <td class="p-4 font-bold text-slate-800 dark:text-slate-200">${item.timestamp}</td>
+                        <td class="p-4"><span class="px-3 py-0.5 bg-slate-100 border text-slate-700 border-slate-200 rounded-full font-extrabold text-xs dark:bg-slate-900 dark:border-slate-700 dark:text-slate-300">${item.accuracy}</span></td>
+                        <td class="p-4 text-emerald-600 font-extrabold dark:text-emerald-400">${item.points}</td>
+                        <td class="p-4 text-slate-400 font-bold text-xs uppercase tracking-tight dark:text-slate-500">${item.weakness}</td>
+                        <td class="p-4 text-center text-slate-300 dark:text-slate-600 font-black text-sm select-none" id="history-caret-${index}">▼</td>
+                    `;
+                    tableBody.appendChild(mainRow);
+
+                    const detailRow = document.createElement('tr');
+                    detailRow.id = `history-expanded-panel-${index}`;
+                    detailRow.className = "hidden bg-slate-50/50 dark:bg-slate-900/20 border-b border-slate-100 dark:border-slate-700";
+                    
+                    let auditTraceHtml = `<div class="p-5 space-y-4 divide-y divide-slate-100 dark:divide-slate-700/60 font-semibold">`;
+                    
+                    if (item.responses && item.responses.length > 0) {
+                        item.responses.forEach((log, idx) => {
+                            const badgeColor = log.isCorrect ? "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-900" : "bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/40 dark:text-rose-300 dark:border-rose-900";
+                            const traceIcon = log.isCorrect ? "✓" : "✗";
+                            const cleanDisplay = log.questionItem.sentence.replace("___", `<span class="underline font-black text-[#800000] dark:text-rose-400">${log.userChoice || "None"}</span>`);
+
+                            auditTraceHtml += `
+                                <div class="${idx > 0 ? 'pt-4' : ''} flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                                    <div class="space-y-1 max-w-2xl">
+                                        <div class="text-sm font-bold text-slate-700 dark:text-slate-300">${idx + 1}. ${cleanDisplay}</div>
+                                        <p class="text-xs text-slate-400 font-semibold italic dark:text-slate-500">${log.questionItem.explanation}</p>
+                                    </div>
+                                    <div class="flex items-center gap-2 shrink-0 self-start sm:self-center">
+                                        <span class="text-[9px] font-black bg-slate-100 border border-slate-200 px-2 py-0.5 rounded text-slate-400 uppercase tracking-wider dark:bg-slate-800 dark:border-slate-700">${log.questionItem.domain}</span>
+                                        <span class="text-xs border px-3 py-0.5 rounded-full font-extrabold ${badgeColor}">${traceIcon} Log</span>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        auditTraceHtml += `<p class="text-xs text-slate-400 italic">No breakdown logs saved onto this item asset file cluster.</p>`;
+                    }
+                    
+                    auditTraceHtml += `</div>`;
+                    
+                    detailRow.innerHTML = `<td colspan="5" class="p-0">${auditTraceHtml}</td>`;
+                    tableBody.appendChild(detailRow);
+                });
+            } catch (e) {}
+        }
+
+        function clearLocalTrackingHistory() {
+            SynthesizedAudioEngine.playClick();
+            if(confirm("Confirm destructive step: Delete all tracking histories from memory space permanently?")) {
+                try {
+                    localStorage.removeItem('eil_multi_format_history');
+                    localStorage.removeItem('eil_unlocked_badges');
+                } catch(e){}
+                populateHistoryTableUI();
+                updateBadgeUIFramework();
+            }
+        }
+
+        function resetEvaluationModule() {
+            SynthesizedAudioEngine.playClick();
+            document.getElementById('completion-pane').classList.add('hidden');
+            document.getElementById('level-selector-pane').classList.remove('hidden');
+            document.getElementById('active-quiz-container').classList.add('hidden');
+            updateBadgeUIFramework();
+        }
+    </script>
+</body>
+</html>
